@@ -13,13 +13,10 @@ gutil       = require 'gulp-util'
 browserSync = require 'browser-sync'
 
 gulp.task 'watch', ->
-  browserSync
-    server:
-      baseDir: config.documentRoot
-    port: config.poot
+  browserSync config.browserSync
 
   watch config.jade, -> gulp.start ['jade']
-  watch config.documentRoot + '/**/*', -> browserSync.reload()
+  watch config.browserSync.server.baseDir + '/**/*', -> browserSync.reload()
 
   files = glob.sync config.es6
   files.forEach (file) ->

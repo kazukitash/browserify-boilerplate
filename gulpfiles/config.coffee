@@ -13,5 +13,7 @@ module.exports =
   html: dist
 
   # browserSyncの設定
-  documentRoot: dist
-  poot: 3000
+  browserSync:
+    server:
+      baseDir: dist
+    port: 3000
