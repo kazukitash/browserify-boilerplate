@@ -6,7 +6,7 @@ notify  = require 'gulp-notify'
 
 gulp.task 'jade', ->
   gulp
-    .src config.jade, base: 'src'
-    .pipe plumber errorHandler: notify.onError('<%= error.message %>')
+    .src config.jade, base: config.jadeBase
+    .pipe plumber errorHandler: notify.onError(title: 'Jade Error', message: '<%= error.message %>')
     .pipe jade()
     .pipe gulp.dest config.html

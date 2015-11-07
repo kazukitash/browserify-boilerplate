@@ -11,6 +11,14 @@ glob        = require 'glob'
 watch       = require 'gulp-watch'
 gutil       = require 'gulp-util'
 browserSync = require 'browser-sync'
+notify      = require 'gulp-notify'
+
+handleErrors = ->
+  args = Array.prototype.slice.call(arguments)
+  notify
+    .onError {title: 'Browserify Error', message: '<%= error.message %>'}
+    .apply @, args
+  @emit 'end'
 
 gulp.task 'watch', ->
   browserSync config.browserSync
@@ -22,7 +30,7 @@ gulp.task 'watch', ->
   files.forEach (file) ->
     b = browserify
         entries: file
-        extensions: ['.jsx', '.js']
+        extensions: config.browserify.extensions
         debug: true
         cache: {}
         packageCache: {}
@@ -32,9 +40,9 @@ gulp.task 'watch', ->
 
     bundle = (updatedFile) ->
       b.bundle()
-        .on 'error', (err) -> gutil.log 'Browserify error:\n', err.message
+        .on 'error', handleErrors
         .pipe source path.basename(file, path.extname(file)) + '.js'
-        .pipe gulp.dest 'dist/js'
+        .pipe gulp.dest config.es5
       if updatedFile?
         updatedFile.map (filename) -> gutil.log 'File updated:', gutil.colors.yellow filename
 
