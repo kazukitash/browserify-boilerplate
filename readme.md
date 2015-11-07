@@ -1,3 +1,4 @@
 # browserify_template
 
-	$ npm run init
+	$ npm install
+	$ gulp # then access to localhost:3000/
